@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Emission Predictor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        input, select {
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 15px;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #4cae4c;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Carbon Emission Predictor</h1>
+        <form id="predictForm">
+            <label for="grocery">Monthly Grocery Bill</label>
+            <input type="number" id="grocery" name="Monthly Grocery Bill" step="0.01" required>
+            
+            <label for="distance">Vehicle Monthly Distance Km</label>
+            <input type="number" id="distance" name="Vehicle Monthly Distance Km" step="0.01" required>
+
+            <label for="waste">Waste Bag Weekly Count</label>
+            <input type="number" id="waste" name="Waste Bag Weekly Count" step="1" required>
+
+            <label for="tv">How Long TV PC Daily Hour</label>
+            <input type="number" id="tv" name="How Long TV PC Daily Hour" step="0.01" required>
+
+            <label for="clothes">How Many New Clothes Monthly</label>
+            <input type="number" id="clothes" name="How Many New Clothes Monthly" step="1" required>
+
+            <label for="internet">How Long Internet Daily Hour</label>
+            <input type="number" id="internet" name="How Long Internet Daily Hour" step="0.01" required>
+
+            <label for="body">Body Type</label>
+            <select id="body" name="Body Type" required>
+                <option value="Slim">Slim</option>
+                <option value="Average">Average</option>
+                <option value="Athletic">Athletic</option>
+                <option value="Heavy">Heavy</option>
+            </select>
+
+            <label for="sex">Sex</label>
+            <select id="sex" name="Sex" required>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <label for="diet">Diet</label>
+            <select id="diet" name="Diet" required>
+                <option value="Vegetarian">Vegetarian</option>
+                <option value="Non-Vegetarian">Non-Vegetarian</option>
+                <option value="Vegan">Vegan</option>
+            </select>
+
+            <label for="shower">How Often Shower</label>
+            <select id="shower" name="How Often Shower" required>
+                <option value="Daily">Daily</option>
+                <option value="Few times a week">Few times a week</option>
+                <option value="Once a week">Once a week</option>
+            </select>
+
+            <label for="heating">Heating Energy Source</label>
+            <select id="heating" name="Heating Energy Source" required>
+                <option value="Electricity">Electricity</option>
+                <option value="Gas">Gas</option>
+                <option value="Wood">Wood</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <label for="transport">Transport</label>
+            <select id="transport" name="Transport" required>
+                <option value="Car">Car</option>
+                <option value="Public Transport">Public Transport</option>
+                <option value="Bicycle">Bicycle</option>
+                <option value="Walking">Walking</option>
+            </select>
+
+            <label for="vehicle">Vehicle Type</label>
+            <select id="vehicle" name="Vehicle Type" required>
+                <option value="Small Car">Small Car</option>
+                <option value="Medium Car">Medium Car</option>
+                <option value="Large Car">Large Car</option>
+                <option value="Motorcycle">Motorcycle</option>
+                <option value="None">None</option>
+            </select>
+
+            <label for="social">Social Activity</label>
+            <select id="social" name="Social Activity" required>
+                <option value="High">High</option>
+                <option value="Moderate">Moderate</option>
+                <option value="Low">Low</option>
+            </select>
+
+            <label for="energy">Energy Efficiency</label>
+            <select id="energy" name="Energy efficiency" required>
+                <option value="High">High</option>
+                <option value="Moderate">Moderate</option>
+                <option value="Low">Low</option>
+            </select>
+
+            <label for="recycling">Recycling</label>
+            <select id="recycling" name="Recycling" required>
+                <option value="Always">Always</option>
+                <option value="Sometimes">Sometimes</option>
+                <option value="Never">Never</option>
+            </select>
+
+            <label for="cooking">Cooking With</label>
+            <select id="cooking" name="Cooking_With" required>
+                <option value="Electricity">Electricity</option>
+                <option value="Gas">Gas</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <button type="submit">Predict</button>
+        </form>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById('predictForm');
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(form);
+            const response = await fetch('/predict', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            document.getElementById('result').innerText = 'Predicted Carbon Emission: ' + data.result + ' tons';
+        });
+    </script>
+</body>
+</html>
